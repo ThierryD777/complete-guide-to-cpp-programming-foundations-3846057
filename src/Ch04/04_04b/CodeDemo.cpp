@@ -12,19 +12,26 @@ using TimePoint = std::chrono::time_point<Clock>;
 using Duration = std::chrono::duration<double>;
 
 int main(){
-    TimePoint start, end;
-    Duration elapsed_seconds;
+    TimePoint *start, *end;
+    Duration *elapsed_seconds = new Duration();
     std::string input;
 
-    start = Clock::now();
+    start = new TimePoint(Clock::now());
 
-    std::cout << "Type 'start' as quickly as you can and hit ENTER: " << std::flush;
-    std::cin >> input;
+    std::cout << "Type 'start and end' as quickly as you can and hit ENTER: " << std::flush;
+    //std::cin >> input; cin reads just the first word till the space
+    std::getline(std::cin, input); //getline reads the whole line including spaces
 
-    end = Clock::now();
-    elapsed_seconds = end - start;
+    end = new TimePoint(Clock::now());
 
-    std::cout << "Reaction time: " << elapsed_seconds.count() << "s" << std::endl;
+    *elapsed_seconds = *end - *start;
+    if(input == "start and end"){
+        std::cout << "Well done!" << std::endl;
+        std::cout << "Reaction time: " << elapsed_seconds->count() << "s" << std::endl;
+    } else {
+        std::cout << "You didn't type 'start and end'!" << std::endl;
+    }
+    delete start, end, elapsed_seconds;
     
     std::cout << std::endl << std::endl;
     return 0;
